@@ -1,4 +1,3 @@
-# Databricks notebook source
 import requests
 from typing import List, Dict, Any
 from pyspark.sql import SparkSession, DataFrame
