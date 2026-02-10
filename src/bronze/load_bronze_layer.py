@@ -20,10 +20,10 @@ path_list_mco = [
 ]
 path_tempo_real = '/Volumes/mobilidade_urbana/raw_data/csv_tempo_real/tempo_real_convencional_csv_090226064135.csv'
 path_dicionario_linhas = '/Volumes/mobilidade_urbana/raw_data/csv_tempo_real/bhtrans_bdlinha.csv'
-path_tipo_de_dia = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_01_TIPO_DE_DIA.xlsx'
-path_cod_interrupcao = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_02_CODIGO_INTERRUPCAO_VIAGEM.xlsx'
-path_cod_viagem = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_03_CODIGO_VIAGEM.xlsx'
-path_empresas = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_EMPRESAS_TRANSPORTE.xlsx'
+path_tipo_de_dia = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_01_TIPO_DE_DIA.csv'
+path_cod_interrupcao = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_02_CODIGO_INTERRUPCAO_VIAGEM.csv'
+path_cod_viagem = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_03_CODIGO_VIAGEM.csv'
+path_empresas = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_EMPRESAS_TRANSPORTE.csv'
 
 df_tempo_real = (spark.read.option("header", "true").option("sep", ";").csv(path_tempo_real))
 df_mco = (spark.read.option("header", "true").option("sep", ";").csv(path_list_mco))
@@ -46,12 +46,12 @@ from pyspark.sql import functions as F
 bronze_schema_path = "/Volumes/mobilidade_urbana/bronze/"
 
 # Adicionando data da ingestão para facilitar o controle de qualidade
-# df_tempo_real_bronze = df_tempo_real.withColumn("ingestion_timestamp", F.current_timestamp())
-# df_mco_bronze = df_mco.withColumn("ingestion_timestamp", F.current_timestamp())
+df_tempo_real_bronze = df_tempo_real.withColumn("ingestion_timestamp", F.current_timestamp())
+df_mco_bronze = df_mco.withColumn("ingestion_timestamp", F.current_timestamp())
 
 # # Salvando dados no formato parquet usando o modo append para adicionar novos dados ao longo do tempo sem sobreescrever dados antigos
-# df_tempo_real_bronze.write.mode("append").parquet(f"{bronze_schema_path}tempo_real")
-# df_mco_bronze.write.mode("append").parquet(f"{bronze_schema_path}mco")
+df_tempo_real_bronze.write.mode("append").parquet(f"{bronze_schema_path}tempo_real")
+df_mco_bronze.write.mode("append").parquet(f"{bronze_schema_path}mco")
 
 # Salvando dicionários no modo overwrite pois não há necessidade de manter versões antigas
 df_dicionario_linhas.write.mode("overwrite").parquet(f"{bronze_schema_path}linhas_onibus")
