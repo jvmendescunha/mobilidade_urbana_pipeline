@@ -27,7 +27,7 @@ path_empresas = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_EMPRESAS_
 
 df_tempo_real = (spark.read.option("header", "true").option("sep", ";").csv(path_tempo_real))
 df_mco = (spark.read.option("header", "true").option("sep", ";").csv(path_list_mco))
-df_dicionario_linhas = (spark.read.option("header", "true").option("sep", ",").csv(path_dicionario_linhas))
+df_dicionario_linhas = (spark.read.option("header", "true").option("sep", ";").csv(path_dicionario_linhas))
 df_tipo_de_dia = (spark.read.option("header", "true").option("sep", ",").csv(path_tipo_de_dia))
 df_cod_interrupcao = (spark.read.option("header", "true").option("sep", ",").csv(path_cod_interrupcao))
 df_cod_viagem = (spark.read.option("header", "true").option("sep", ",").csv(path_cod_viagem))
