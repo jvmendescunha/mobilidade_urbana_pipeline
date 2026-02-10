@@ -27,11 +27,11 @@ path_empresas = '/Volumes/mobilidade_urbana/raw_data/dicionarios/ANEXO_EMPRESAS_
 
 df_tempo_real = (spark.read.option("header", "true").option("sep", ";").csv(path_tempo_real))
 df_mco = (spark.read.option("header", "true").option("sep", ";").csv(path_list_mco))
-df_dicionario_linhas = (spark.read.option("header", "true").option("sep", ";").csv(path_dicionario_linhas))
-df_tipo_de_dia = (spark.read.option("header", "true").option("sep", ";").csv(path_tipo_de_dia))
-df_cod_interrupcao = (spark.read.option("header", "true").option("sep", ";").csv(path_cod_interrupcao))
-df_cod_viagem = (spark.read.option("header", "true").option("sep", ";").csv(path_cod_viagem))
-df_empresas = (spark.read.option("header", "true").option("sep", ";").csv(path_empresas))
+df_dicionario_linhas = (spark.read.option("header", "true").option("sep", ",").csv(path_dicionario_linhas))
+df_tipo_de_dia = (spark.read.option("header", "true").option("sep", ",").csv(path_tipo_de_dia))
+df_cod_interrupcao = (spark.read.option("header", "true").option("sep", ",").csv(path_cod_interrupcao))
+df_cod_viagem = (spark.read.option("header", "true").option("sep", ",").csv(path_cod_viagem))
+df_empresas = (spark.read.option("header", "true").option("sep", ",").csv(path_empresas))
 
 
 # COMMAND ----------
@@ -49,7 +49,7 @@ bronze_schema_path = "/Volumes/mobilidade_urbana/bronze/"
 df_tempo_real_bronze = df_tempo_real.withColumn("ingestion_timestamp", F.current_timestamp())
 df_mco_bronze = df_mco.withColumn("ingestion_timestamp", F.current_timestamp())
 
-# # Salvando dados no formato parquet usando o modo append para adicionar novos dados ao longo do tempo sem sobreescrever dados antigos
+# Salvando dados no formato parquet usando o modo append para adicionar novos dados ao longo do tempo sem sobreescrever dados antigos
 df_tempo_real_bronze.write.mode("append").parquet(f"{bronze_schema_path}tempo_real")
 df_mco_bronze.write.mode("append").parquet(f"{bronze_schema_path}mco")
 
