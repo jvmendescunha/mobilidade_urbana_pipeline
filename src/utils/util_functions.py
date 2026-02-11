@@ -1,6 +1,9 @@
 import re
-from pyspark.sql import DataFrame
+from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql import functions as F
+from pathlib import Path
+
+spark = SparkSession.getActiveSession() or SparkSession.builder.getOrCreate()
 
 def normalize_column_names(df: DataFrame) -> DataFrame:
     """
@@ -17,4 +20,13 @@ def normalize_column_names(df: DataFrame) -> DataFrame:
         normalized = normalized.strip("_")
 
         df = df.withColumnRenamed(col, normalized)
+
     return df
+
+def read_csv(path, sep=";", header=True):
+    return (
+        spark.read
+        .option("header", str(header).lower())
+        .option("sep", sep)
+        .csv(path)
+    )
