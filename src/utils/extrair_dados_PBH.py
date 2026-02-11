@@ -56,6 +56,16 @@ def download_resource(resource: dict, output_dir: Path):
 
 
 def main():
+    # Criar schema se não existir
+    spark.sql("""
+        CREATE SCHEMA IF NOT EXISTS mobilidade_urbana.raw_data
+    """)
+
+    # Criar volume se não existir
+    spark.sql("""
+        CREATE VOLUME IF NOT EXISTS mobilidade_urbana.raw_data.csv_mco
+    """)
+
     year = 2024
     output_dir = Path("/Volumes/mobilidade_urbana/raw_data/csv_mco")
     output_dir.mkdir(parents=True, exist_ok=True)
