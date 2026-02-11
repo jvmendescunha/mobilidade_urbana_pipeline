@@ -32,5 +32,5 @@ bronze_schema_path = "/Volumes/mobilidade_urbana/bronze/"
 df_mco_bronze = df.withColumn("ingestion_timestamp", F.current_timestamp())
 
 # Salvando dados no formato parquet usando o modo append para adicionar novos dados ao longo do tempo sem sobreescrever dados antigos
-df_mco_bronze.write.mode("overwrite").parquet(f"{bronze_schema_path}mco")
+df_mco_bronze.write.mode("append").parquet(f"{bronze_schema_path}mco")
 
