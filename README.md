@@ -6,9 +6,9 @@ Projeto de engenharia de dados para aplicar ETL, arquitetura medallion, data lak
 
 ## Requerimentos:
 
-python 3.8.10
-WSL: 2.6.3.0
-Homebrew 5.0.14
+- python 3.8.10
+- WSL: 2.6.3.0
+- Homebrew 5.0.14
 
 ## Setup de ambiente
 
@@ -17,7 +17,7 @@ Instalar databricks-cli: `brew instal databricks`
 Instalar o python venv:
 ```
 sudo apt-get update
-sudo apt install python3.8-venv
+sudo apt install python3.8-venv  openjdk-17-jdk
 ```
 
 Criar e ativar o ambiente virutal: 
@@ -32,6 +32,10 @@ Configurar databricks CLI:
 ```
 databricks configure --host https://{seu-host}.cloud.databricks.com --token {seu personal access token}
 ```
+
+## Testes
+
+Executar comando: `pytest`
 
 ## Execução do workflow
 
@@ -60,26 +64,6 @@ Este repositório contém um pipeline completo de dados que:
 - Constrói camadas Bronze → Silver → Gold (arquitetura medallion)
 - Armazena resultados em tabelas Delta hospedadas no Databricks
 - Facilita análises e visualizações posteriores
-
-# Estrutura do Repositório
-
-mobilidade_urbana_pipeline/
-│
-├── src/
-│   ├── utils/
-│   │   └── extrair_dados_PBH.py           # scripts de API/extracao
-│   ├── bronze/
-│   │   └── load_bronze_layer.py           # transforma raw → bronze
-│   ├── silver/
-│   │   └── load_silver_layer.py           # bronze → silver
-│   └── gold/
-│       └── load_gold_layer.py             # silver → gold
-│
-├── databricks.yml                         # Job pipeline definido como código
-├── tests/                                 # testes automatizados
-├── requirements-dev.txt                   # dependências de teste
-├── README.md
-└── LICENSE
 
 # Detalhamento das etapas
 
