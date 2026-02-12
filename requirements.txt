@@ -1,0 +1,6 @@
+pyspark>=3.5
+requests>=2.31
+delta-spark>=3.0
+pytest>=8.0
+chispa>=0.10
+responses>=0.25
