@@ -50,6 +50,7 @@ df_gold_ocorrencias = (
         F.sum(F.when(F.col("evento_inseguro") == "S", 1).otherwise(0)).alias("eventos_inseguros"),
         F.sum("total_usuarios").alias("passageiros_afetados")
     )
+    .withColumnRenamed("viagem", "data")
 )
 
 df_gold_ocorrencias.write \
