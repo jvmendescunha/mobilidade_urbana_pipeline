@@ -33,6 +33,8 @@ Configurar databricks CLI:
 databricks configure --host https://{seu-host}.cloud.databricks.com --token {seu personal access token}
 ```
 
+> Nota: Alterar host no arquivo databricks.yml
+
 ## Testes
 
 Executar comando: `pytest`
@@ -65,21 +67,25 @@ Este repositório contém um pipeline completo de dados que:
 - Armazena resultados em tabelas Delta hospedadas no Databricks
 - Facilita análises e visualizações posteriores
 
+# Dicionário de Dados
+
+Um dicionário de dados das tabelas na camada gold pode ser encontrando em docs/data_dictionary
+
 # Arquitetura                                                                                                     
                                                             
 ```mermaid                                                                                                         
 flowchart TB                                              
     subgraph Extração
         API[API CKAN<br/>dados.pbh.gov.br] -->|package_show<br/>descoberta dinâmica| SCRIPT[extrair_dados_PBH.py]
-        SCRIPT -->|download CSV| RAW["/Volumes/.../raw_data<br/>📁 CSV"]
+        SCRIPT -->|download CSV| RAW["/Volumes/.../raw_data<br/>CSV"]
     end
 
     subgraph Bronze
-        RAW -->|read CSV + ingestion_timestamp| BRZ["/Volumes/.../bronze/mco<br/>📦 Parquet · append"]
+        RAW -->|read CSV + ingestion_timestamp| BRZ["/Volumes/.../bronze/mco<br/>Parquet · append"]
     end
 
     subgraph Silver
-        BRZ -->|parse datas · cast tipos<br/>dedup · normalize colunas| SLV["silver.mco<br/>💎 Delta · overwrite"]
+        BRZ -->|parse datas · cast tipos<br/>dedup · normalize colunas| SLV["silver.mco<br/>Delta · overwrite"]
     end
 
     subgraph Gold
