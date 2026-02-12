@@ -1,48 +1,20 @@
 bundle:
   name: mobilidade_urbana_pipeline
 
-resources:
-  jobs:
-    mobilidade_urbana_pipeline:
-      name: mobilidade_urbana_pipeline
+workspace:
+  host: https://dbc-d96765b5-9a55.cloud.databricks.com
 
-      tasks:
-        - task_key: extracao_dados_pbh
-          spark_python_task:
-            python_file: mobilidade_urbana_pipeline/src/utils/extrair_dados_PBH.py
-          job_cluster_key: pipeline_cluster
+include:
+  - resources/*.yml
 
-        - task_key: bronze_layer
-          depends_on:
-            - task_key: extracao_dados_pbh
-          spark_python_task:
-            python_file: mobilidade_urbana_pipeline/src/bronze/load_bronze_layer.py
-          job_cluster_key: pipeline_cluster
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/mobilidade_urbana_pipeline
 
-        - task_key: silver_layer
-          depends_on:
-            - task_key: bronze_layer
-          spark_python_task:
-            python_file: mobilidade_urbana_pipeline/src/silver/load_silver_layer.py
-          job_cluster_key: pipeline_cluster
-
-        - task_key: create_dims
-          depends_on:
-            - task_key: silver_layer
-          spark_python_task:
-            python_file: mobilidade_urbana_pipeline/src/gold/create_dims
-          job_cluster_key: pipeline_cluster
-
-        - task_key: gold_layer
-          depends_on:
-            - task_key: silver_layer
-          spark_python_task:
-            python_file: mobilidade_urbana_pipeline/src/gold/load_gold_layer.py
-          job_cluster_key: pipeline_cluster
-
-      job_clusters:
-        - job_cluster_key: pipeline_cluster
-          new_cluster:
-            spark_version: 14.3.x-scala2.12
-            node_type_id: Standard_DS3_v2
-            num_workers: 2
+  prod:
+    mode: production
+    workspace:
+      root_path: /Workspace/production/mobilidade_urbana_pipeline
