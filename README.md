@@ -14,7 +14,7 @@ Projeto de engenharia de dados para aplicar ETL, arquitetura medallion, data lak
 
 Instalar databricks-cli: `brew instal databricks`
 
-Instalar o python venv:
+Instalar o python venv e java:
 ```
 sudo apt-get update
 sudo apt install python3.8-venv  openjdk-17-jdk
