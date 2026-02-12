@@ -70,28 +70,28 @@ Este repositório contém um pipeline completo de dados que:
 ```mermaid                                                                                                         
 flowchart TB                                              
     subgraph Extração
-        API[API CKAN\ndados.pbh.gov.br] -->|package_show\ndescoberta dinâmica| SCRIPT[extrair_dados_PBH.py]
-        SCRIPT -->|download CSV| RAW["/Volumes/.../raw_data\n📁 CSV"]
+        API[API CKAN<br/>dados.pbh.gov.br] -->|package_show<br/>descoberta dinâmica| SCRIPT[extrair_dados_PBH.py]
+        SCRIPT -->|download CSV| RAW["/Volumes/.../raw_data<br/>📁 CSV"]
     end
 
     subgraph Bronze
-        RAW -->|read CSV + ingestion_timestamp| BRZ["/Volumes/.../bronze/mco\n📦 Parquet · append"]
+        RAW -->|read CSV + ingestion_timestamp| BRZ["/Volumes/.../bronze/mco<br/>📦 Parquet · append"]
     end
 
     subgraph Silver
-        BRZ -->|parse datas · cast tipos\ndedup · normalize colunas| SLV["silver.mco\n💎 Delta · overwrite"]
+        BRZ -->|parse datas · cast tipos<br/>dedup · normalize colunas| SLV["silver.mco<br/>💎 Delta · overwrite"]
     end
 
     subgraph Gold
-        SLV --> GV["gold_viagens\nviagens · veículos · passageiros\nfaturamento estimado"]
-        SLV --> GO["gold_ocorrencias\ninterrupções · falhas mecânicas\neventos inseguros"]
-        SLV --> GT["gold_tipo_dia\nmétricas por tipo de dia\n× linha"]
-        SLV --> DIM1["dim_tipo_dia\n34 tipos de dia"]
-        SLV --> DIM2["dim_ocorrencia\n18 códigos de evento"]
+        SLV --> GV["gold_viagens<br/>viagens · veículos · passageiros<br/>faturamento estimado"]
+        SLV --> GO["gold_ocorrencias<br/>interrupções · falhas mecânicas<br/>eventos inseguros"]
+        SLV --> GT["gold_tipo_dia<br/>métricas por tipo de dia<br/>× linha"]
+        SLV --> DIM1["dim_tipo_dia<br/>34 tipos de dia"]
+        SLV --> DIM2["dim_ocorrencia<br/>18 códigos de evento"]
     end
 
     subgraph Orquestração
-        DAB["Databricks Asset Bundles\npipeline_job.yml"] -.->|task dependencies| SCRIPT
+        DAB["Databricks Asset Bundles<br/>pipeline_job.yml"] -.->|task dependencies| SCRIPT
         DAB -.-> BRZ
         DAB -.-> SLV
         DAB -.-> GV
