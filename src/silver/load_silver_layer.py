@@ -1,25 +1,11 @@
-# Databricks notebook source
-# MAGIC %md
-# MAGIC **Carregando dados da camada bronze**
-
-# COMMAND ----------
+from src.utils.util_functions import normalize_column_names
+from pyspark.sql import functions as F
 
 # Carrega arquivo da camada bronze
 df_mco_bronze = spark.read.parquet("/Volumes/mobilidade_urbana/bronze/mco")
 
 # Cria schema silver, caso ainda não exista
 spark.sql("CREATE SCHEMA IF NOT EXISTS mobilidade_urbana.silver")
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC **tratamentos e ingestão da tabela silver.mco**
-
-# COMMAND ----------
-
-# DBTITLE 1,tratamentos e ingestão da tabela silver.mco
-from src.utils.util_functions import normalize_column_names
-from pyspark.sql import functions as F
 
 # Corrigir nomes das colunas (remove espaços desnecessários)
 df_mco_silver = df_mco_bronze.select(

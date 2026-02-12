@@ -1,9 +1,3 @@
-# Databricks notebook source
-# MAGIC %md
-# MAGIC **Criação de tabelas dimensão**
-
-# COMMAND ----------
-
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
@@ -59,8 +53,6 @@ df_tipo_dia.write \
     .format("delta") \
     .saveAsTable("mobilidade_urbana.gold.dim_tipo_dia")
 
-# COMMAND ----------
-
 schema_ocorrencia = StructType([
     StructField("CODIGO_EVENTO", StringType(), True),
     StructField("CODIGO_VIAGEM", StringType(), True),
@@ -93,7 +85,4 @@ df_ocorrencia.write \
     .mode("overwrite") \
     .format("delta") \
     .saveAsTable("mobilidade_urbana.gold.dim_ocorrencia")
-
-# COMMAND ----------
-
 
