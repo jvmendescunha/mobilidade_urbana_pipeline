@@ -1,3 +1,4 @@
+from __future__ import annotations
 import requests                                                                                                                                                                                                                          
 from pathlib import Path                                                                                                                                                                                                                 
 from datetime import datetime
