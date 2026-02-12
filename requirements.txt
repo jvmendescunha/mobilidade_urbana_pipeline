@@ -1,3 +1,4 @@
+wheel>=0.45.1
 pyspark>=3.5
 requests>=2.31
 delta-spark>=3.0

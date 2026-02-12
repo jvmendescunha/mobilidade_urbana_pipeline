@@ -1,15 +1,7 @@
-# Databricks notebook source
+from pyspark.sql import functions as F
+
 # Cria schema gold, caso ainda não exista
 spark.sql("CREATE SCHEMA IF NOT EXISTS mobilidade_urbana.gold")
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC **gold_viagens**
-
-# COMMAND ----------
-
-from pyspark.sql import functions as F
 
 df_mco = spark.table("mobilidade_urbana.silver.mco")
 
@@ -32,13 +24,6 @@ df_gold_viagens.write \
     .format("delta") \
     .saveAsTable("mobilidade_urbana.gold.gold_viagens")
 
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC **gold_ocorrencias**
-
-# COMMAND ----------
-
 df_gold_ocorrencias = (
     df_mco
     .filter(F.trim(F.col("ocorrencia")) != "")
@@ -57,13 +42,6 @@ df_gold_ocorrencias.write \
     .mode("overwrite") \
     .format("delta") \
     .saveAsTable("mobilidade_urbana.gold.gold_ocorrencias")
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC **gold_tipo_dia**
-
-# COMMAND ----------
 
 df_gold_tipo_dia = (
     df_mco
