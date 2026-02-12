@@ -44,13 +44,13 @@ databricks bundle run mobilidade_urbana_pipeline
 ## Verificando funcionamento
 
 Após fazer o deploy do workflow (`databricks bundle deploy --target dev`) verifique se subiu corretamente com `databricks bundle summary --target dev`
-![alt text](./docs/images/bundle_summary.png)
+![alt text](docs/images/bundle_summary.png)
 
 No menu jobs & pipelines verifique a execução correta da pipeline
-![alt text](/.docs/images/job_success.png)
+![alt text](docs/images/job_success.png)
 
 Verifique as tabelas no banco fazendo uma consulta SQL `SELECT * FROM mobilidade_urbana.gold.gold_viagens`
-![alt text](./docs/images/sql_query.png)
+![alt text](docs/images/sql_query.png)
 
 # Visão Geral
 
