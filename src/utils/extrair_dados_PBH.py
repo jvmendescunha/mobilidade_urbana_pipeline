@@ -1,8 +1,8 @@
 from __future__ import annotations
 import requests                                                                                                                                                                                                                          
 from pathlib import Path                                                                                                                                                                                                                 
-from datetime import datetime
 from src.config.settings import (CKAN_API, HEADERS, MCO_DATASET_ID)
+
 
 def discover_resources(dataset_id: str) -> list[dict]:
     """Busca os recursos do conjunto de dados no CKAN"""
