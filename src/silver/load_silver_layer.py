@@ -1,5 +1,6 @@
-from src.utils.util_functions import normalize_column_names
 from pyspark.sql import functions as F
+
+from src.utils.util_functions import normalize_column_names
 
 # Carrega arquivo da camada bronze
 df_mco_bronze = spark.read.parquet("/Volumes/mobilidade_urbana/bronze/mco")
@@ -31,7 +32,7 @@ df_mco_silver = (
 # Deduplicação de linhas
 df_mco_silver = df_mco_silver.dropDuplicates(["VIAGEM", "LINHA", "SUBLINHA", "SAIDA_TS", "CHEGADA_TS"])
 
-# #normalizar nomes das colunas
+# Normalizar nomes das colunas
 df_mco_silver = normalize_column_names(df_mco_silver)
 
 # Salva na camada silver

@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType
+from pyspark.sql.types import IntegerType, StringType, StructField, StructType
 
 spark = SparkSession.builder \
     .appName("Replicar Tabela CSV") \
@@ -85,4 +85,3 @@ df_ocorrencia.write \
     .mode("overwrite") \
     .format("delta") \
     .saveAsTable("mobilidade_urbana.gold.dim_ocorrencia")
-

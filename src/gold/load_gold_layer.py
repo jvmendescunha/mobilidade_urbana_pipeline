@@ -5,6 +5,8 @@ spark.sql("CREATE SCHEMA IF NOT EXISTS mobilidade_urbana.gold")
 
 df_mco = spark.table("mobilidade_urbana.silver.mco")
 
+# gold_viagens
+
 df_gold_viagens = (
     df_mco
     .groupBy("viagem", "linha", "sublinha")
@@ -24,6 +26,8 @@ df_gold_viagens.write \
     .format("delta") \
     .saveAsTable("mobilidade_urbana.gold.gold_viagens")
 
+# gold_ocorrencias
+
 df_gold_ocorrencias = (
     df_mco
     .filter(F.trim(F.col("ocorrencia")) != "")
@@ -42,6 +46,8 @@ df_gold_ocorrencias.write \
     .mode("overwrite") \
     .format("delta") \
     .saveAsTable("mobilidade_urbana.gold.gold_ocorrencias")
+
+# gold_tipo_dia
 
 df_gold_tipo_dia = (
     df_mco

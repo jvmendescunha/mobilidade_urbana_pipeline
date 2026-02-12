@@ -37,7 +37,13 @@ databricks configure --host https://{seu-host}.cloud.databricks.com --token {seu
 
 ## Testes
 
-Executar comando: `pytest`
+Para rodar os testes: `pytest`
+
+## Linting
+
+Para verificar linting: `ruff check src/ tests/`
+
+> Nota: A regra F821 está sendo ignorada, pois o databricks já conhece o nome 'spark'
 
 ## Execução do workflow
 
