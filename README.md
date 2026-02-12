@@ -1,4 +1,4 @@
-# mobilidade_urbana_pipeline
+# Pipeline de Dados: Mobilidade Urbana PBH
 
 Projeto de engenharia de dados para aplicar ETL, arquitetura medallion, data lake e data warehouse usando dados públicos sobre a mobilidade urbana de Belo Horizonte (PBH), MG
 
@@ -64,6 +64,48 @@ Este repositório contém um pipeline completo de dados que:
 - Constrói camadas Bronze → Silver → Gold (arquitetura medallion)
 - Armazena resultados em tabelas Delta hospedadas no Databricks
 - Facilita análises e visualizações posteriores
+
+# Arquitetura                                                                                                     
+                                                            
+```mermaid                                                                                                         
+flowchart TB                                              
+    subgraph Extração
+        API[API CKAN\ndados.pbh.gov.br] -->|package_show\ndescoberta dinâmica| SCRIPT[extrair_dados_PBH.py]
+        SCRIPT -->|download CSV| RAW["/Volumes/.../raw_data\n📁 CSV"]
+    end
+
+    subgraph Bronze
+        RAW -->|read CSV + ingestion_timestamp| BRZ["/Volumes/.../bronze/mco\n📦 Parquet · append"]
+    end
+
+    subgraph Silver
+        BRZ -->|parse datas · cast tipos\ndedup · normalize colunas| SLV["silver.mco\n💎 Delta · overwrite"]
+    end
+
+    subgraph Gold
+        SLV --> GV["gold_viagens\nviagens · veículos · passageiros\nfaturamento estimado"]
+        SLV --> GO["gold_ocorrencias\ninterrupções · falhas mecânicas\neventos inseguros"]
+        SLV --> GT["gold_tipo_dia\nmétricas por tipo de dia\n× linha"]
+        SLV --> DIM1["dim_tipo_dia\n34 tipos de dia"]
+        SLV --> DIM2["dim_ocorrencia\n18 códigos de evento"]
+    end
+
+    subgraph Orquestração
+        DAB["Databricks Asset Bundles\npipeline_job.yml"] -.->|task dependencies| SCRIPT
+        DAB -.-> BRZ
+        DAB -.-> SLV
+        DAB -.-> GV
+    end
+
+    style API fill:#4a9eff,color:#fff
+    style BRZ fill:#cd7f32,color:#fff
+    style SLV fill:#c0c0c0,color:#000
+    style GV fill:#ffd700,color:#000
+    style GO fill:#ffd700,color:#000
+    style GT fill:#ffd700,color:#000
+    style DIM1 fill:#ffd700,color:#000
+    style DIM2 fill:#ffd700,color:#000
+```
 
 # Detalhamento das etapas
 
