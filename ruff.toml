@@ -1,0 +1,11 @@
+line-length = 120
+target-version  = "py38"
+
+[lint]
+select = ["E","F","W","I"]
+
+[lint.per-file-ignores]
+"src/bronze/*.py" = ["F821"]
+"src/silver/*.py" = ["F821"]
+"src/gold/*.py" = ["F821"]
+"src/utils/*.py" = ["F821"]

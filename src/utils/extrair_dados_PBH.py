@@ -1,7 +1,10 @@
 from __future__ import annotations
-import requests                                                                                                                                                                                                                          
-from pathlib import Path                                                                                                                                                                                                                 
-from src.config.settings import (CKAN_API, HEADERS, MCO_DATASET_ID)
+
+from pathlib import Path
+
+import requests
+
+from src.config.settings import CKAN_API, HEADERS, MCO_DATASET_ID
 
 
 def discover_resources(dataset_id: str) -> list[dict]:
@@ -85,7 +88,7 @@ def main():
             print(f"  FAILED: {e}")
 
     # Logs de acompanhamento
-    print(f"\nDone:")
+    print("\nDone:")
     total = 0
     for f in sorted(output_dir.glob("*.csv")):
         sz = f.stat().st_size
